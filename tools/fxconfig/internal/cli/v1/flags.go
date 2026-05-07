@@ -20,7 +20,9 @@ type policyFlag string
 func (f *policyFlag) bind(cmd *cobra.Command) {
 	cmd.Flags().StringVar((*string)(f), "policy", "",
 		"Endorsement policy (e.g., \"OR('Org1MSP.member')\" or \"AND('Org1MSP.member', 'Org2MSP.member')\")")
-	_ = cmd.MarkFlagRequired("policy")
+	if err := cmd.MarkFlagRequired("policy"); err != nil {
+		panic(err)
+	}
 }
 
 // versionFlag represents a namespace version number flag.
@@ -29,7 +31,9 @@ type versionFlag int
 func (f *versionFlag) bind(cmd *cobra.Command) {
 	cmd.Flags().IntVar((*int)(f), "version", 0,
 		"Current namespace version (required for updates to prevent conflicts)")
-	_ = cmd.MarkFlagRequired("version")
+	if err := cmd.MarkFlagRequired("version"); err != nil {
+		panic(err)
+	}
 }
 
 // namespaceDeployFlags groups flags for namespace deployment operations.
